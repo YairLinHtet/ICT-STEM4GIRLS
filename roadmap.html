@@ -12,15 +12,80 @@
       rel="stylesheet"
     />
     <link rel="icon" href="assets/stem4girls-favicon.svg" />
-
+    <script src="js/roadmap-ai.js" defer></script>
     <title>ROADMAP</title>
   </head>
   <body>
     <header></header>
     <main>
-      <section class="roadmap-form">
-        <div class="roadmap-form-heading"></div>
-        <form action=""></form>
+      <section class="roadmap-form-container">
+        <div class="roadmap-form-heading">
+          <h1 class="roadmap-title">Roadmap with AI</h1>
+          <p class="roadmap-subtitle">
+            Please fill this form to get a roadmap to the specific thing you
+            want to learn
+          </p>
+        </div>
+        <form id="roadmap-form" class="form-container">
+          <div class="input-group">
+            <label for="learning-subject">Learning Subject</label>
+            <input
+              type="text"
+              id="learning-subject"
+              placeholder="eg., Software Engineering"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="time-commitment">Daily Time Commitment</label>
+            <input
+              type="text"
+              id="time-commitment"
+              placeholder="eg., 1 Hours per day"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="current-experience">Current Experience</label>
+            <input
+              type="text"
+              id="current-experience"
+              placeholder="eg., Begineer"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="primary-goal">Primary Goal</label>
+            <input
+              type="text"
+              id="primary-goal"
+              placeholder="eg., For Hobby"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="learning-duration">Learning Duration</label>
+            <input
+              type="text"
+              id="learning-duration"
+              placeholder="eg., 30days"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="preferred-resource">Preferred Resource</label>
+            <input
+              type="text"
+              id="preferred-resource"
+              placeholder="eg., Youtube"
+              required
+            />
+          </div>
+
+          <div class="submit-button-container">
+            <button type="submit" id="submit-btn">Generate Roadmap</button>
+          </div>
+        </form>
       </section>
       <section></section>
     </main>

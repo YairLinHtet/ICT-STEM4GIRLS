@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <script src="js/script.js" defer></script>
+    <script src="js/schedule-ai.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,7 +18,73 @@
   </head>
   <body>
     <header></header>
-    <main></main>
+    <main>
+      <section class="schedule-form-container">
+        <div class="schedule-heading">
+          <h2 class="schedule-title">Schedule with AI</h2>
+          <p class="schedule-subtitle">
+            Fill out this form to generate a customized learning roadmap and
+            schedule tailored to your goals
+          </p>
+        </div>
+        <form id="schedule-form" class="form-vertical">
+          <!-- Input for Free Time -->
+          <div class="input-group">
+            <label for="start-time">Free Time</label>
+            <div class="time-group">
+              <input type="time" id="start-time" required />
+              <span>To</span>
+              <input type="time" id="end-time" required />
+            </div>
+          </div>
+          <!-- Input for Break Time -->
+          <div class="input-group">
+            <label for="break-time">Break Time</label>
+            <input
+              type="text"
+              id="break-time"
+              placeholder="eg., 10 mins"
+              required
+            />
+          </div>
+          <!-- Inpu for Subject -->
+          <div class="input-group">
+            <label for="subject-input">Subject and Priority</label>
+            <div id="subject-container">
+              <div class="subject-row">
+                <input
+                  type="text"
+                  name="subject"
+                  id="subject-input"
+                  placeholder="eg., Coding Frontend"
+                  required
+                />
+                <select
+                  name="priority-select"
+                  id="priority-select"
+                  class="priority-select"
+                >
+                  <option value="High">High</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Low">Low</option>
+                </select>
+                <button
+                  type="button"
+                  class="icon-btn"
+                  onclick="addSubjectRow()"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Submit Button -->
+          <button type="submit" class="submit-btn" id="generate-btn">
+            Generate Schedule
+          </button>
+        </form>
+      </section>
+    </main>
     <footer>
       <small
         >&copy; 2026 STEM4GIRLS, Developed by Yair Linn Htet for Industrial
