@@ -24,7 +24,7 @@ export const handler = async (event) => {
         },
         body: JSON.stringify({
           // Llama 3 Free မော်ဒယ်သို့ ပြောင်းလဲထားပါသည် (ပိုမြန်ပြီး တည်ငြိမ်သည်)
-          model: "nousresearch/hermes-3-llama-3.1-405b:free",
+          model: "openrouter/owl-alpha",
           messages: [
             { role: "system", content: systemInstruction },
             { role: "user", content: userPrompt },
