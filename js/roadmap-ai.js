@@ -79,7 +79,7 @@ async function handleFormSubmit(event) {
   }`;
 
   try {
-    const response = await fetch("//.netlify/functions/generate-roadmap", {
+    const response = await fetch("/.netlify/functions/generate-roadmap", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ systemInstruction, userPrompt }),
