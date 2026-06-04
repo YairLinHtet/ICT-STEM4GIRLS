@@ -407,3 +407,127 @@ select:open::picker-icon {
     grid-column: span 1;
   }
 }
+
+/* ==========================================================================
+   STEM4GIRLS - AI ROADMAP RESPONSIVE & RESULT TIMELINE
+   ========================================================================== */
+
+/* ၁။ လက်ရှိ Form ကို Mobile Responsive ဖြစ်စေရန် ပြင်ဆင်ခြင်း */
+@media (max-width: 768px) {
+  .form-container {
+    display: grid;
+    grid-template-columns: 1fr !important; /* ဖုန်းမျက်နှာပြင်တွင် ၁ ကော်လံတည်း ပြောင်းမည် */
+    gap: 15px;
+    padding: 10px;
+  }
+
+  .roadmap-title {
+    font-size: 2rem !important;
+  }
+}
+
+/* ၂။ AI Response Container Styling */
+.ai-response {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.roadmap-result-container {
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  padding: 35px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  color: #2c3e50;
+}
+
+.result-title {
+  color: #5c1d43; /* သင့် Theme အရောင်နှင့် ကိုက်ညီသော ခရမ်းရင့်ရောင် */
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #de5466;
+  padding-bottom: 10px;
+}
+
+.result-duration {
+  color: #de5466; /* Button အရောင်နှင့် ကိုက်ညီသော Coral Pink */
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 30px;
+  display: inline-block;
+  background: rgba(222, 84, 102, 0.1);
+  padding: 5px 15px;
+  border-radius: 20px;
+}
+
+/* ၃။ Vertical Timeline Structure */
+.timeline {
+  position: relative;
+  border-left: 3px solid #de5466;
+  padding-left: 30px;
+  margin-left: 15px;
+}
+
+.timeline-card {
+  position: relative;
+  margin-bottom: 35px;
+  padding: 25px;
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  transition: transform 0.3s ease;
+}
+
+.timeline-card:hover {
+  transform: translateX(5px);
+}
+
+/* Timeline ၏ အစက်အဝိုင်းပုံစံ Node များ */
+.timeline-card::before {
+  content: "";
+  position: absolute;
+  left: -39px;
+  top: 28px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #de5466;
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 0 2px #de5466;
+}
+
+.timeline-card h3 {
+  color: #5c1d43;
+  margin-top: 0;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.timeline-card h4 {
+  color: #34495e;
+  margin-top: 15px;
+  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.timeline-card ul {
+  padding-left: 20px;
+  margin: 5px 0;
+}
+
+.timeline-card li {
+  margin-bottom: 6px;
+  color: #4f5f6f;
+}
+
+/* ၄။ စနစ်အတွင်း အမှားပြသမှု Card */
+.error-card {
+  background-color: #fff5f7;
+  border-left: 5px solid #de5466;
+  padding: 20px;
+  border-radius: 8px;
+  color: #5c1d43;
+}
