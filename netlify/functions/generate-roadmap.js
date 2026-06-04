@@ -1,39 +1,47 @@
 // netlify/functions/generate-roadmap.js
 
-exports.handler = async function (event, context) {
+export const handler = async (event) => {
   if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method Not Allowed" };
+    return {
+      statusCode: 405,
+      body: JSON.stringify({ error: "Method Not Allowed" }),
+    };
   }
 
   try {
     const { systemInstruction, userPrompt } = JSON.parse(event.body);
-    const apiKey = process.env.OPENROUTER_API_KEY;
 
+    // OpenRouter API ကို လှမ်းခေါ်ခြင်း
     const response = await fetch(
       "https://openrouter.ai/api/v1/chat/completions",
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${apiKey}`,
+          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
           "Content-Type": "application/json",
-          "HTTP-Referer": "https://stemforgirls.netlify.app/",
-          "X-Title": "STEM4Girls Roadmap",
+          "HTTP-Referer": "https://stemforgirls.netlify.app", // သင့်ဝက်ဘ်ဆိုက်လင့်ခ်
+          "X-Title": "STEM4GIRLS Roadmap",
         },
         body: JSON.stringify({
-          model: "google/gemma-4-26b-a4b-it:free", // 💡 အသုံးပြုမည့် Google Gemma 4 Model သစ်
+          // Llama 3 Free မော်ဒယ်သို့ ပြောင်းလဲထားပါသည် (ပိုမြန်ပြီး တည်ငြိမ်သည်)
+          model: "meta-llama/llama-3-8b-instruct:free",
           messages: [
             { role: "system", content: systemInstruction },
             { role: "user", content: userPrompt },
           ],
+          // JSON format အတိအကျရစေရန် တောင်းဆိုခြင်း
           response_format: { type: "json_object" },
         }),
       },
     );
 
     if (!response.ok) {
+      // 429 အပါအဝင် အခြားသော Error များကို Frontend သို့ ပြန်ပို့ပေးမည်
       return {
         statusCode: response.status,
-        body: JSON.stringify({ error: "OPENROUTER_API_ERROR" }),
+        body: JSON.stringify({
+          error: `OpenRouter API Error: ${response.status}`,
+        }),
       };
     }
 
@@ -41,16 +49,13 @@ exports.handler = async function (event, context) {
 
     return {
       statusCode: 200,
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
   } catch (error) {
+    console.error("Function error:", error);
     return {
       statusCode: 500,
-      body: JSON.stringify({
-        error: "INTERNAL_SERVER_ERROR",
-        details: error.toString(),
-      }),
+      body: JSON.stringify({ error: "Internal Server Error" }),
     };
   }
 };

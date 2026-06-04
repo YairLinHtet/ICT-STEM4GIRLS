@@ -9,13 +9,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /**
  * နေ့စဉ်အသုံးပြုမှု ကန့်သတ်ချက် စစ်ဆေးခြင်း
+ * မှတ်ချက် - Web လွှင့်မည့်အချိန် (Production) တွင် ဤနေရာ၌ false ဟု ပြောင်းပေးပါ။
  */
-
 const TEST_MODE = true;
 
 function checkRoadmapLimit() {
-
   if (TEST_MODE) return true;
+
   const today = new Date().toDateString();
   let savedDate = localStorage.getItem("stem_app_date");
   let roadmapDone = localStorage.getItem("stem_roadmap_done") === "true";
@@ -28,7 +28,7 @@ function checkRoadmapLimit() {
 
   if (roadmapDone) {
     showUserFriendlyError(
-      "ယနေ့အတွက် Roadmap ဖန်တီးခွင့် (၁) ကြိမ် အသုံးပြုပြီး ဖြစ်ပါသည်။ မနက်ဖြန်တွင် ပြန်လည်စမ်းသပ်နိုင်ပါသည်။",
+      "ယနေ့အတွက် Roadmap ဖန်တီးခွင့် (၁) ကြိမ် အသုံးပြုပြီး ဖြစ်ပါသည်။ မနက်ဖြန်တွင် ပြန်လည်စမ်းသပ်နိုင်ပါသည်တန်။",
     );
     return false;
   }
@@ -56,11 +56,11 @@ async function handleFormSubmit(event) {
   submitBtn.innerText = "Generating Roadmap...";
   submitBtn.disabled = true;
 
-  // 👩‍💻 Gemma Model အတွက် အထူးသီးသန့် စနစ်ညွှန်ကြားချက်
+  // 👩‍💻 AI Model အတွက် အထူးသီးသန့် စနစ်ညွှန်ကြားချက်
   const systemInstruction =
     "You are an inspiring STEM academic mentor dedicated to empowering girls and young women in technology. Your style is highly structured, deeply encouraging, and builds core technical confidence step-by-step. You must respond ONLY in a valid JSON object format. No conversation, no markdown blocks.";
 
-  // 📺 YouTube Channel တိုက်ရိုက်ညွှန်းရန် တင်းကြပ်ထားသော Prompt
+  // 📺 Prompt အသေးစိတ် ညွှန်ကြားချက်
   const userPrompt = `Create a customized ${duration} learning roadmap for studying "${subject}" tailored for a young woman breaking into STEM.
   - Current Experience Level: ${experience}
   - Daily Time Commitment: ${timeCommitment}
@@ -91,13 +91,21 @@ async function handleFormSubmit(event) {
     });
 
     if (!response.ok) {
-      showUserFriendlyError(
-        "AI Server တွင် ချိတ်ဆက်မှု အဆင်မပြေဖြစ်နေပါသည်။ ခေတ္တစောင့်ဆိုင်းပြီးမှ ပြန်လည်စမ်းသပ်ပေးပါ။",
-      );
+      if (response.status === 429) {
+        showUserFriendlyError(
+          "⏳ လောလောဆယ် အသုံးပြုသူများပြားနေသဖြင့် စနစ်မှာ ခေတ္တပိတ်ဆို့နေပါသည်။ (၁) မိနစ်ခန့် စောင့်ဆိုင်းပြီးမှ 'Generate Roadmap' ကို ပြန်လည်နှိပ်ပေးပါဗျာ။",
+        );
+      } else {
+        showUserFriendlyError(
+          `⚠️ AI Server တွင် ချိတ်ဆက်မှု အဆင်မပြေဖြစ်နေပါသည်။ (Error Code: ${response.status}) ခေတ္တစောင့်ဆိုင်းပြီးမှ ပြန်လည်စမ်းသပ်ပေးပါ။`,
+        );
+      }
       return;
     }
 
     const data = await response.json();
+
+    // OpenRouter မှ ပြန်လာသော Data အား ရယူခြင်း
     const aiResponseText = data.choices[0].message.content;
     const roadmapData = JSON.parse(aiResponseText);
 
@@ -106,7 +114,7 @@ async function handleFormSubmit(event) {
   } catch (error) {
     console.error("Error:", error);
     showUserFriendlyError(
-      "ကွန်ရက်ချိတ်ဆက်မှု ချို့ယွင်းနေပါသည်။ အင်တာနက်လိုင်း ပြန်လည်စစ်ဆေးပြီး ပြန်ကြိုးစားပေးပါ။",
+      "ကွန်ရက်ချိတ်ဆက်မှု ချို့ယွင်းနေပါသည်။ သို့မဟုတ် AI ဘက်မှ JSON ပုံစံမမှန်ကန်ပါ။ ပြန်လည်ကြိုးစားပေးပါ။",
     );
   } finally {
     submitBtn.innerText = originalBtnText;
@@ -115,7 +123,7 @@ async function handleFormSubmit(event) {
 }
 
 /**
- * ရလဒ်အား HTML `.ai-response` နေရာတွင် သပ်ရပ်စွာ ပုံဖော်ပေးခြင်း
+ * ရလဒ်အား HTML တွင် ပုံဖော်ခြင်းနှင့် PDF ခလုတ်ထည့်သွင်းခြင်း
  */
 function displayRoadmapResult(roadmap) {
   const resultSection = document.querySelector(".ai-response");
@@ -124,7 +132,7 @@ function displayRoadmapResult(roadmap) {
   resultSection.innerHTML = "";
 
   let htmlContent = `
-    <div class="roadmap-result-container">
+    <div class="roadmap-result-container" id="pdf-content" style="padding: 20px; background-color: #fff;">
       <h2 class="result-title">AI Generated Roadmap for ${roadmap.subject}</h2>
       <p class="result-duration">Total Duration: ${roadmap.duration}</p>
       <div class="timeline">
@@ -132,30 +140,63 @@ function displayRoadmapResult(roadmap) {
 
   roadmap.schedule.forEach((item) => {
     htmlContent += `
-      <div class="timeline-card">
-        <h3>${item.phase}</h3>
-        <h4>Core Topics to Cover:</h4>
+      <div class="timeline-card" style="margin-bottom: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 8px;">
+        <h3 style="color: #2c3e50;">${item.phase}</h3>
+        <h4 style="margin-top: 10px;">Core Topics to Cover:</h4>
         <ul>${item.topics.map((t) => `<li>${t}</li>`).join("")}</ul>
-        <h4>Empowering Activities:</h4>
+        <h4 style="margin-top: 10px;">Empowering Activities:</h4>
         <p>${item.activities.join(", ")}</p>
-        <h4>Recommended Channels & Resources:</h4>
+        <h4 style="margin-top: 10px;">Recommended Channels & Resources:</h4>
         <p><strong>${item.resources.join(", ")}</strong></p>
       </div>
     `;
   });
 
-  htmlContent += `</div></div>`;
+  htmlContent += `
+      </div>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+      <button id="download-pdf-btn" style="padding: 12px 24px; font-size: 16px; font-weight: bold; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        📥 Download Roadmap as PDF
+      </button>
+    </div>
+  `;
+
   resultSection.innerHTML = htmlContent;
+
+  document
+    .getElementById("download-pdf-btn")
+    .addEventListener("click", downloadRoadmapPDF);
   resultSection.scrollIntoView({ behavior: "smooth" });
 }
 
+/**
+ * HTML ကို PDF အဖြစ် ပြောင်းလဲဒေါင်းလုဒ်လုပ်ခြင်း
+ */
+function downloadRoadmapPDF() {
+  const element = document.getElementById("pdf-content");
+
+  const opt = {
+    margin: 0.5,
+    filename: "STEM_Learning_Roadmap.pdf",
+    image: { type: "jpeg", quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
+  };
+
+  html2pdf().set(opt).from(element).save();
+}
+
+/**
+ * Error များကို User မြင်သာအောင် ပြသပေးခြင်း
+ */
 function showUserFriendlyError(message) {
   const resultSection = document.querySelector(".ai-response");
   if (!resultSection) return;
 
   resultSection.innerHTML = `
-    <div class="error-card">
-      <h3>⚠️ စနစ်အတွင်း အချက်ပြမှု</h3>
+    <div class="error-card" style="padding: 20px; background-color: #ffebee; border: 1px solid #ffcdd2; border-radius: 8px; color: #c62828;">
+      <h3 style="margin-top: 0;">⚠️ စနစ်အတွင်း အချက်ပြမှု</h3>
       <p>${message}</p>
     </div>
   `;
