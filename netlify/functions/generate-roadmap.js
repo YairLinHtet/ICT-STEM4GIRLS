@@ -24,7 +24,7 @@ export const handler = async (event) => {
         },
         body: JSON.stringify({
           // Llama 3 Free မော်ဒယ်သို့ ပြောင်းလဲထားပါသည် (ပိုမြန်ပြီး တည်ငြိမ်သည်)
-          model: "meta-llama/llama-3-8b-instruct:free",
+          model: "meta-llama/llama-3.2-3b-instruct:free",
           messages: [
             { role: "system", content: systemInstruction },
             { role: "user", content: userPrompt },
