@@ -10,25 +10,30 @@ document.addEventListener("DOMContentLoaded", () => {
 /**
  * နေ့စဉ်အသုံးပြုမှု ကန့်သတ်ချက် စစ်ဆေးခြင်း
  */
-// function checkRoadmapLimit() {
-//   const today = new Date().toDateString();
-//   let savedDate = localStorage.getItem("stem_app_date");
-//   let roadmapDone = localStorage.getItem("stem_roadmap_done") === "true";
 
-//   if (savedDate !== today) {
-//     localStorage.setItem("stem_app_date", today);
-//     localStorage.setItem("stem_roadmap_done", "false");
-//     roadmapDone = false;
-//   }
+const TEST_MODE = true;
 
-//   if (roadmapDone) {
-//     showUserFriendlyError(
-//       "ယနေ့အတွက် Roadmap ဖန်တီးခွင့် (၁) ကြိမ် အသုံးပြုပြီး ဖြစ်ပါသည်။ မနက်ဖြန်တွင် ပြန်လည်စမ်းသပ်နိုင်ပါသည်။",
-//     );
-//     return false;
-//   }
-//   return true;
-// }
+function checkRoadmapLimit() {
+
+  if (TEST_MODE) return true;
+  const today = new Date().toDateString();
+  let savedDate = localStorage.getItem("stem_app_date");
+  let roadmapDone = localStorage.getItem("stem_roadmap_done") === "true";
+
+  if (savedDate !== today) {
+    localStorage.setItem("stem_app_date", today);
+    localStorage.setItem("stem_roadmap_done", "false");
+    roadmapDone = false;
+  }
+
+  if (roadmapDone) {
+    showUserFriendlyError(
+      "ယနေ့အတွက် Roadmap ဖန်တီးခွင့် (၁) ကြိမ် အသုံးပြုပြီး ဖြစ်ပါသည်။ မနက်ဖြန်တွင် ပြန်လည်စမ်းသပ်နိုင်ပါသည်။",
+    );
+    return false;
+  }
+  return true;
+}
 
 /**
  * Form Submit လုပ်ဆောင်ချက်
