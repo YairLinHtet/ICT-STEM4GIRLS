@@ -531,3 +531,197 @@ select:open::picker-icon {
   border-radius: 8px;
   color: #5c1d43;
 }
+
+/* ==========================================================================
+   STEM4GIRLS - AI SCHEDULE OUTPUT SECTIONS STYLING (EXTERNAL/RESPONSIVE)
+   ========================================================================== */
+
+#ai-schedule-result-section {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 0 20px;
+  font-family: "Montserrat", "Roboto", sans-serif;
+  box-sizing: border-box;
+}
+
+.schedule-output-wrapper {
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(92, 29, 67, 0.08);
+  padding: 35px;
+  border: 1px solid rgba(222, 84, 102, 0.15);
+}
+
+/* Header Section UI Elements */
+.schedule-output-header {
+  border-bottom: 2px dashed rgba(222, 84, 102, 0.2);
+  padding-bottom: 25px;
+  margin-bottom: 30px;
+}
+
+.output-title {
+  color: #5c1d43;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+}
+
+.output-framework {
+  color: #de5466;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.output-strategy {
+  color: #5a6a7a;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Timeline Components */
+.timeline-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.timeline-card {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  border-radius: 12px;
+  border: 1px solid #eef2f5;
+  background-color: #ffffff;
+  overflow: hidden;
+  transition:
+    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.2s ease;
+}
+
+.timeline-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(92, 29, 67, 0.05);
+}
+
+/* Cards Distinctions */
+.study-card {
+  border-left: 5px solid #5c1d43;
+}
+
+.break-card {
+  background-color: #fffafb;
+  border-left: 5px solid #de5466;
+}
+
+/* Time Counter Container */
+.timeline-time-box {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fafbfc;
+  border-right: 1px solid #eef2f5;
+}
+
+.time-text {
+  font-weight: 700;
+  color: #2c3e50;
+  font-size: 15px;
+  text-align: center;
+}
+
+/* Body Content Area */
+.timeline-body-box {
+  padding: 22px 25px;
+}
+
+.timeline-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.timeline-body-box h4 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.timeline-body-box ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #5a6a7a;
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+.timeline-body-box li {
+  margin-bottom: 5px;
+}
+
+/* Priority Control Tags */
+.badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-high {
+  background-color: #ffebeb;
+  color: #e74c3c;
+}
+.badge-medium {
+  background-color: #fff4e6;
+  color: #e67e22;
+}
+.badge-low {
+  background-color: #e8f8f5;
+  color: #1abc9c;
+}
+
+/* ==========================================================================
+   MEDIA QUERIES FOR ULTRA MOBILE RESPONSIVENESS (BREAKPOINTS)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .schedule-output-wrapper {
+    padding: 20px 15px;
+  }
+
+  .output-title {
+    font-size: 20px;
+  }
+
+  .timeline-card {
+    grid-template-columns: 1fr; /* ဖုန်းပေါ်တွင် Row Layout အဖြစ် ဖြန့်ချပေးမည် */
+  }
+
+  .timeline-time-box {
+    padding: 12px;
+    border-right: none;
+    border-bottom: 1px solid #eef2f5;
+    justify-content: flex-start;
+  }
+
+  .timeline-body-box {
+    padding: 15px;
+  }
+
+  .timeline-title-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .timeline-body-box h4 {
+    font-size: 16px;
+  }
+}

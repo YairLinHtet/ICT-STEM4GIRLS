@@ -1,5 +1,3 @@
-// js/roadmap-ai.js
-
 document.addEventListener("DOMContentLoaded", () => {
   const roadmapForm = document.getElementById("roadmap-form");
   if (roadmapForm) {
@@ -8,10 +6,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
- * နေ့စဉ်အသုံးပြုမှု ကန့်သတ်ချက် စစ်ဆေးခြင်း
- * မှတ်ချက် - Web လွှင့်မည့်အချိန် (Production) တွင် ဤနေရာ၌ false ဟု ပြောင်းပေးပါ။
+ * NOTICE : Change flase in Production
  */
 const TEST_MODE = true;
+
+// TODO : Move to script
 
 function checkRoadmapLimit() {
   if (TEST_MODE) return true;
@@ -123,7 +122,7 @@ async function handleFormSubmit(event) {
 }
 
 /**
- * ရလဒ်အား HTML တွင် ပုံဖော်ခြင်းနှင့် PDF ခလုတ်ထည့်သွင်းခြင်း
+ * Add Html AI reponse
  */
 function displayRoadmapResult(roadmap) {
   const resultSection = document.querySelector(".ai-response");
@@ -171,7 +170,8 @@ function displayRoadmapResult(roadmap) {
 }
 
 /**
- * HTML ကို PDF အဖြစ် ပြောင်းလဲဒေါင်းလုဒ်လုပ်ခြင်း
+ * HTML TO PDF File
+ *  TODO: Need to Fix a PDF File
  */
 function downloadRoadmapPDF() {
   const element = document.getElementById("pdf-content");
@@ -188,7 +188,8 @@ function downloadRoadmapPDF() {
 }
 
 /**
- * Error များကို User မြင်သာအောင် ပြသပေးခြင်း
+ * Error Show div for user
+ * Need to relocate
  */
 function showUserFriendlyError(message) {
   const resultSection = document.querySelector(".ai-response");
