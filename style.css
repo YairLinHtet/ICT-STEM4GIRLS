@@ -469,7 +469,7 @@ select:open::picker-icon {
   margin-left: 15px;
 }
 
-.timeline-card {
+.timeline-card-roadmap {
   position: relative;
   margin-bottom: 35px;
   padding: 25px;
@@ -480,12 +480,12 @@ select:open::picker-icon {
   transition: transform 0.3s ease;
 }
 
-.timeline-card:hover {
+.timeline-card-roadmap:hover {
   transform: translateX(5px);
 }
 
 /* Timeline ၏ အစက်အဝိုင်းပုံစံ Node များ */
-.timeline-card::before {
+.timeline-card-roadmap::before {
   content: "";
   position: absolute;
   left: -39px;
@@ -701,7 +701,8 @@ select:open::picker-icon {
   }
 
   .timeline-card {
-    grid-template-columns: 1fr; 
+    grid-template-columns: 1fr;
+  }
 
   .timeline-time-box {
     padding: 12px;

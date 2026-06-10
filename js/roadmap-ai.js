@@ -139,7 +139,7 @@ function displayRoadmapResult(roadmap) {
 
   roadmap.schedule.forEach((item) => {
     htmlContent += `
-      <div class="timeline-card" style="margin-bottom: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 8px;">
+      <div class="timeline-card-roadmap" style="margin-bottom: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 8px;">
         <h3 style="color: #2c3e50;">${item.phase}</h3>
         <h4 style="margin-top: 10px;">Core Topics to Cover:</h4>
         <ul>${item.topics.map((t) => `<li>${t}</li>`).join("")}</ul>
