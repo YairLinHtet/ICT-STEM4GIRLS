@@ -701,8 +701,7 @@ select:open::picker-icon {
   }
 
   .timeline-card {
-    grid-template-columns: 1fr; /* ဖုန်းပေါ်တွင် Row Layout အဖြစ် ဖြန့်ချပေးမည် */
-  }
+    grid-template-columns: 1fr; 
 
   .timeline-time-box {
     padding: 12px;

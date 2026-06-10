@@ -180,11 +180,18 @@ function downloadRoadmapPDF() {
     margin: 0.5,
     filename: "STEM_Learning_Roadmap.pdf",
     image: { type: "jpeg", quality: 0.98 },
-    html2canvas: { scale: 2 },
+    html2canvas: { scale: 1, useCORS: true, logging: false },
     jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
   };
 
-  html2pdf().set(opt).from(element).save();
+  html2pdf()
+    .set(opt)
+    .from(element)
+    .toPdf()
+    .get("pdf")
+    .then(function (pdf) {
+      pdf.save();
+    });
 }
 
 /**
