@@ -173,27 +173,65 @@ function displayRoadmapResult(roadmap) {
  * HTML TO PDF File
  *  TODO: Need to Fix a PDF File
  */
+/**
+ * HTML TO PDF File
+ * 💡 ပိုမိုတည်ငြိမ်ပြီး Blank မဖြစ်စေရန် ပြင်ဆင်ထားပါသည်
+ */
 function downloadRoadmapPDF() {
   const element = document.getElementById("pdf-content");
+  const downloadBtn = document.getElementById("download-pdf-btn");
+
+  if (!element || element.innerHTML.trim() === "") {
+    alert("Roadmap Content မရှိသေးသဖြင့် PDF ထုတ်ယူ၍ မရနိုင်သေးပါဗျာ။");
+    return;
+  }
+
+  // ဒေါင်းလုဒ်ဆွဲနေစဉ် ခလုတ်ကို ခေတ္တပိတ်ထားပါမည်
+  if (downloadBtn) {
+    downloadBtn.innerText = "⏳ Preparing PDF...";
+    downloadBtn.disabled = true;
+  }
 
   const opt = {
-    margin: 0.5,
+    margin: [0.5, 0.5, 0.5, 0.5], // အပေါ်၊ အောက်၊ ဘယ်၊ ညာ margin ပေးခြင်း
     filename: "STEM_Learning_Roadmap.pdf",
     image: { type: "jpeg", quality: 0.98 },
-    html2canvas: { scale: 1, useCORS: true, logging: false },
+    html2canvas: {
+      scale: 2, // 💡 စာသားများ ပိုမိုကြည်လင်ပြတ်သားပြီး နေရာမှန်ပေါ်စေရန် scale တိုးထားပါသည်
+      useCORS: true,
+      logging: false,
+      letterRendering: true,
+      backgroundColor: "#ffffff", // 💡 Canvas နောက်ခံကို အဖြူရောင်အဖြစ် အတင်းသတ်မှတ်ခြင်း
+    },
     jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
   };
 
+  // 💡 စာသားအရောင် အဖြူဖြစ်နေပါက PDF ပေါ်တွင် မြင်ရစေရန် ကာကွယ်သည့်စနစ် (Temporary Style Inject)
+  // ပြန်ထုတ်မည့် element ထဲသို့ စာသားအရောင် အမည်းရောင် (#111111) ကို အတင်းထည့်ပေးခြင်း ဖြစ်ပါတယ်
+  const originalColor = element.style.color;
+  element.style.color = "#111111";
+
+  // 💡 ပိုမိုသန့်ရှင်းပြီး တရားဝင် standard ဖြစ်သော ခေါ်ယူမှုပုံစံသို့ ပြောင်းလဲထားပါသည်
   html2pdf()
     .set(opt)
     .from(element)
-    .toPdf()
-    .get("pdf")
-    .then(function (pdf) {
-      pdf.save();
+    .save()
+    .then(() => {
+      // PDF ထွက်ပြီးပါက ကုဒ်များကို မူလအတိုင်း ပြန်ပြောင်းပေးပါမည်
+      element.style.color = originalColor;
+      if (downloadBtn) {
+        downloadBtn.innerText = "📥 Download Roadmap as PDF";
+        downloadBtn.disabled = false;
+      }
+    })
+    .catch((err) => {
+      console.error("PDF Generation Error:", err);
+      if (downloadBtn) {
+        downloadBtn.innerText = "❌ Error Downloading";
+        downloadBtn.disabled = false;
+      }
     });
 }
-
 /**
  * Error Show div for user
  * Need to relocate
