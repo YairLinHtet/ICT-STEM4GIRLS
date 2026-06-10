@@ -177,48 +177,100 @@ function displayRoadmapResult(roadmap) {
  * HTML TO PDF File
  * 💡 ပိုမိုတည်ငြိမ်ပြီး Blank မဖြစ်စေရန် ပြင်ဆင်ထားပါသည်
  */
+/**
+ * HTML TO PDF File
+ * 💡 CSS Layout နှင့် ID အမှားများကြောင့် Blank ဖြစ်ခြင်းကို ရာနှုန်းပြည့် ကာကွယ်ထားပါသည်
+ */
 function downloadRoadmapPDF() {
-  const element = document.getElementById("pdf-content");
+  // ၁။ တကယ့် Content ရှိနေမည့် Element ကို ရှာပါမယ်
+  // #pdf-content ကို ရှာလို့မတွေ့ပါက ရလဒ်ပြသပေးသည့် resultSection ကြီးတစ်ခုလုံးကို Fallback အနေဖြင့် ဖတ်ပါမည်
+  let originalElement = document.getElementById("pdf-content");
+
+  if (!originalElement) {
+    // အကယ်၍ ID မတွေ့ပါက Class နာမည် သို့မဟုတ် result နေရာကို လိုက်ရှာခြင်း
+    originalElement =
+      document.querySelector(".markdown-body") ||
+      document.getElementById("roadmap-output");
+  }
+
+  // အပေါ်က ဘာမှရှာမတွေ့သေးရင် ခလုတ်ရှိနေတဲ့ အပြင်ဘက်ဆုံး သေတ္တာကြီးကို ယူပါမယ်
+  if (!originalElement) {
+    const btn = document.getElementById("download-pdf-btn");
+    if (btn && btn.parentElement) {
+      originalElement = btn.parentElement.parentElement;
+    }
+  }
+
   const downloadBtn = document.getElementById("download-pdf-btn");
 
-  if (!element || element.innerHTML.trim() === "") {
-    alert("Roadmap Content မရှိသေးသဖြင့် PDF ထုတ်ယူ၍ မရနိုင်သေးပါဗျာ။");
+  // တကယ်လို့ အထဲမှာ စာသား လုံးဝမရှိရင် သတိပေးချက်ပြမည်
+  if (!originalElement || originalElement.innerHTML.trim() === "") {
+    alert(
+      "Roadmap Content ကို ရှာမတွေ့သေးပါဗျာ။ ခေတ္တစောင့်ပြီးမှ ပြန်လည်စမ်းသပ်ပေးပါ။",
+    );
     return;
   }
 
-  // ဒေါင်းလုဒ်ဆွဲနေစဉ် ခလုတ်ကို ခေတ္တပိတ်ထားပါမည်
   if (downloadBtn) {
     downloadBtn.innerText = "⏳ Preparing PDF...";
     downloadBtn.disabled = true;
   }
 
+  // ၂။ 💡 ဝက်ဘ်ဆိုက် CSS ကြောင့် Blank ဖြစ်ခြင်းမှ ကာကွယ်ရန် ယာယီ ကွန်တိန်နာ (Clone) တစ်ခု ဆောက်ပါမည်
+  const tempContainer = document.createElement("div");
+  tempContainer.innerHTML = originalElement.innerHTML;
+
+  // PDF ထဲမှာ ဒေါင်းလုဒ်ခလုတ်ကြီး ထပ်ပါမလာစေရန် Clone ထဲက ခလုတ်ကို ရှာပြီး ဖျက်ထုတ်ခြင်း
+  const btnInClone =
+    tempContainer.querySelector("#download-pdf-btn") ||
+    tempContainer.querySelector("button");
+  if (btnInClone && btnInClone.parentElement) {
+    btnInClone.parentElement.remove();
+  }
+
+  // ၃။ CSS Layout Collapse မဖြစ်စေရန် Standard Print Styles များကို ဇွတ်အတင်း သတ်မှတ်ခြင်း
+  tempContainer.style.position = "absolute";
+  tempContainer.style.left = "-9999px"; // စခရင်ပေါ်မှာ လာမရှုပ်အောင် ဘေးသို့ ပို့ထားခြင်း
+  tempContainer.style.top = "0";
+  tempContainer.style.width = "750px"; // Standard A4 Layout အကျယ်
+  tempContainer.style.background = "#ffffff";
+  tempContainer.style.padding = "40px";
+  tempContainer.style.boxSizing = "border-box";
+  tempContainer.style.display = "block";
+  tempContainer.style.height = "auto";
+
+  // အထဲက AI စာသားအရောင်တွေ အဖြူဖြစ်နေရင် PDF ပေါ်မှာ မြင်ရအောင် အမည်းရောင်သို့ အားလုံး ပြောင်းပစ်ခြင်း
+  const allChildElements = tempContainer.querySelectorAll("*");
+  allChildElements.forEach((el) => {
+    el.style.color = "#111111";
+    el.style.backgroundColor = "transparent";
+  });
+
+  // ၎င်းယာယီ သေတ္တာကို HTML Body ထဲသို့ ခေတ္တ ချိတ်ဆက်လိုက်ပါမည်
+  document.body.appendChild(tempContainer);
+
+  // ၄။ html2pdf Configuration Settings
   const opt = {
-    margin: [0.5, 0.5, 0.5, 0.5], // အပေါ်၊ အောက်၊ ဘယ်၊ ညာ margin ပေးခြင်း
+    margin: [0.5, 0.5, 0.5, 0.5],
     filename: "STEM_Learning_Roadmap.pdf",
     image: { type: "jpeg", quality: 0.98 },
     html2canvas: {
-      scale: 2, // 💡 စာသားများ ပိုမိုကြည်လင်ပြတ်သားပြီး နေရာမှန်ပေါ်စေရန် scale တိုးထားပါသည်
+      scale: 2, // စာလုံးများ အလွန်ကြည်လင်ပြတ်သားစေရန်
       useCORS: true,
       logging: false,
-      letterRendering: true,
-      backgroundColor: "#ffffff", // 💡 Canvas နောက်ခံကို အဖြူရောင်အဖြစ် အတင်းသတ်မှတ်ခြင်း
+      backgroundColor: "#ffffff", // နောက်ခံကို အဖြူရောင် သတ်မှတ်ခြင်း
     },
     jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
   };
 
-  // 💡 စာသားအရောင် အဖြူဖြစ်နေပါက PDF ပေါ်တွင် မြင်ရစေရန် ကာကွယ်သည့်စနစ် (Temporary Style Inject)
-  // ပြန်ထုတ်မည့် element ထဲသို့ စာသားအရောင် အမည်းရောင် (#111111) ကို အတင်းထည့်ပေးခြင်း ဖြစ်ပါတယ်
-  const originalColor = element.style.color;
-  element.style.color = "#111111";
-
-  // 💡 ပိုမိုသန့်ရှင်းပြီး တရားဝင် standard ဖြစ်သော ခေါ်ယူမှုပုံစံသို့ ပြောင်းလဲထားပါသည်
+  // ၅။ PDF အဖြစ် ပြောင်းလဲထုတ်ယူခြင်း
   html2pdf()
     .set(opt)
-    .from(element)
+    .from(tempContainer)
     .save()
     .then(() => {
-      // PDF ထွက်ပြီးပါက ကုဒ်များကို မူလအတိုင်း ပြန်ပြောင်းပေးပါမည်
-      element.style.color = originalColor;
+      // အလုပ်ပြီးသွားပါက ယာယီဆောက်ထားသော ကွန်တိန်နာကို ပြန်လည် ဖျက်ပစ်ပါမည်
+      document.body.removeChild(tempContainer);
       if (downloadBtn) {
         downloadBtn.innerText = "📥 Download Roadmap as PDF";
         downloadBtn.disabled = false;
@@ -226,6 +278,9 @@ function downloadRoadmapPDF() {
     })
     .catch((err) => {
       console.error("PDF Generation Error:", err);
+      if (tempContainer.parentNode) {
+        document.body.removeChild(tempContainer);
+      }
       if (downloadBtn) {
         downloadBtn.innerText = "❌ Error Downloading";
         downloadBtn.disabled = false;
