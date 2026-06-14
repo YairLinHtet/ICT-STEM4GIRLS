@@ -116,7 +116,7 @@ function showSharedSystemError(containerSelector, message) {
 
   resultSection.innerHTML = `
     <div class="error-card" style="padding: 20px; background-color: #ffebee; border: 1px solid #ffcdd2; border-radius: 8px; color: #c62828; font-family: sans-serif; margin-top: 15px;">
-      <h3 style="margin-top: 0;">⚠️ စနစ်အတွင်း အချက်ပြမှု</h3>
+      <h3 style="margin-top: 0;">⚠️ System Warning</h3>
       <p>${message}</p>
     </div>
   `;

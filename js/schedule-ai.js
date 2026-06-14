@@ -143,13 +143,13 @@ async function handleScheduleSubmit(event) {
 }
 
 /**
- * AI ရလဒ်အား HTML Layout ပုံစံဖြင့် ထည့်သွင်းပြသခြင်း
+ * AI Result Response
  */
 function displayScheduleResult(data) {
   let mainElement = document.querySelector("main");
   let resultSection = document.getElementById("ai-schedule-result-section");
 
-  // အကယ်၍ Section မရှိသေးပါက main အောက်တွင် အလိုအလျောက် ဆောက်ပေးမည်
+  // If no AI reponse HTML TAG create a new tag
   if (!resultSection) {
     resultSection = document.createElement("section");
     resultSection.id = "ai-schedule-result-section";

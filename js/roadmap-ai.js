@@ -55,11 +55,11 @@ async function handleFormSubmit(event) {
   submitBtn.innerText = "Generating Roadmap...";
   submitBtn.disabled = true;
 
-  // 👩‍💻 AI Model အတွက် အထူးသီးသန့် စနစ်ညွှန်ကြားချက်
+  //  AI Model Instruction
   const systemInstruction =
     "You are an inspiring STEM academic mentor dedicated to empowering girls and young women in technology. Your style is highly structured, deeply encouraging, and builds core technical confidence step-by-step. You must respond ONLY in a valid JSON object format. No conversation, no markdown blocks.";
 
-  // 📺 Prompt အသေးစိတ် ညွှန်ကြားချက်
+  //  Prompt
   const userPrompt = `Create a customized ${duration} learning roadmap for studying "${subject}" tailored for a young woman breaking into STEM.
   - Current Experience Level: ${experience}
   - Daily Time Commitment: ${timeCommitment}
@@ -155,9 +155,9 @@ function displayRoadmapResult(roadmap) {
       </div>
     </div>
     <div style="text-align: center; margin-top: 20px;">
-      <button id="download-pdf-btn" style="padding: 12px 24px; font-size: 16px; font-weight: bold; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-        📥 Download Roadmap as PDF
-      </button>
+      // <button id="download-pdf-btn" style="padding: 12px 24px; font-size: 16px; font-weight: bold; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+      //   📥 Download Roadmap as PDF
+      // </button>
     </div>
   `;
 
