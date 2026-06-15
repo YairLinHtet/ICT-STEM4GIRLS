@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // စမ်းသပ်ရလွယ်ကူစေရန် (Production တွင် false ပြောင်းပါ)
-const TEST_MODE = true;
+const TEST_MODE = false;
 
 /**
  * Form Submit လုပ်ချိန်တွင် အလုပ်လုပ်မည့် စနစ်

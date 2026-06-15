@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 /**
  * NOTICE : Change flase in Production
  */
-const TEST_MODE = true;
+const TEST_MODE = false;
 
 // TODO : Move to script
 
@@ -155,9 +155,9 @@ function displayRoadmapResult(roadmap) {
       </div>
     </div>
     <div style="text-align: center; margin-top: 20px;">
-      // <button id="download-pdf-btn" style="padding: 12px 24px; font-size: 16px; font-weight: bold; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-      //   📥 Download Roadmap as PDF
-      // </button>
+      <button id="download-pdf-btn" style="padding: 12px 24px; font-size: 16px; font-weight: bold; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        📥 Download Roadmap as PDF
+      </button>
     </div>
   `;
 
